@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Biblioteca | Mis Libros</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Librería para crear PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo-biblioteca">
+        <div class="logo-icon">B</div>
+
+        <div>
+            <h2>Biblioteca</h2>
+            <span>Mi espacio de libros</span>
+        </div>
+    </div>
+
+    <nav>
+
+        <button class="menu active" onclick="mostrarSeccion('inicio')">
+            🏠 Inicio
+        </button>
+
+        <button class="menu" onclick="mostrarSeccion('crear')">
+            ✚ Crear libro
+        </button>
+
+        <button class="menu" onclick="mostrarSeccion('libros')">
+            📚 Ver libros
+        </button>
+
+        <button class="menu" onclick="mostrarSeccion('proceso')">
+            ◔ Proceso de libro
+        </button>
+
+        <button class="menu" onclick="mostrarSeccion('chat')">
+            ✦ Chat con IA
+        </button>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <p>
+            Tus libros se guardan automáticamente
+            en este navegador.
+        </p>
+    </div>
+
+</aside>
+
+
+<!-- ================= CONTENIDO ================= -->
+
+<main class="contenido">
+
+    <header class="topbar">
+
+        <div>
+            <small>MI BIBLIOTECA</small>
+            <h1 id="tituloPagina">Inicio</h1>
+        </div>
+
+        <button class="btn-principal" onclick="nuevoLibro()">
+            ＋ Nuevo libro
+        </button>
+
+    </header>
+
+
+    <!-- ================= INICIO ================= -->
+
+    <section id="inicio" class="seccion activa">
+
+        <div class="hero">
+
+            <div>
+
+                <span class="etiqueta">
+                    TU ESPACIO DE ESCRITURA
+                </span>
+
+                <h2>
+                    Convierte tus ideas en
+                    <em>libros completos.</em>
+                </h2>
+
+                <p>
+                    Crea, organiza, escribe, edita,
+                    comparte y descarga tus libros
+                    desde un solo lugar.
+                </p>
+
+                <button class="btn-principal"
+                        onclick="nuevoLibro()">
+                    Comenzar un libro
+                </button>
+
+            </div>
+
+            <div class="hero-icon">
+                ❧
+            </div>
+
+        </div>
+
+
+        <div class="estadisticas">
+
+            <div class="estadistica">
+                <span>Libros</span>
+                <strong id="cantidadLibros">0</strong>
+            </div>
+
+            <div class="estadistica">
+                <span>Capítulos</span>
+                <strong id="cantidadCapitulos">0</strong>
+            </div>
+
+            <div class="estadistica">
+                <span>Completado</span>
+                <strong id="porcentajeGeneral">0%</strong>
+            </div>
+
+        </div>
+
+
+        <div class="titulo-seccion">
+
+            <div>
+                <h3>Mis libros recientes</h3>
+            </div>
+
+            <button onclick="mostrarSeccion('libros')">
+                Ver todos →
+            </button>
+
+        </div>
+
+        <div id="librosRecientes" class="grid-libros"></div>
+
+    </section>
+
+
+
+    <!-- ================= CREAR ================= -->
+
+    <section id="crear" class="seccion">
+
+        <div class="contenedor-editor">
+
+            <div class="pasos">
+
+                <div class="paso activo">
+                    <b>1</b>
+                    Información
+                </div>
+
+                <div class="linea"></div>
+
+                <div class="paso">
+                    <b>2</b>
+                    Capítulos
+                </div>
+
+                <div class="linea"></div>
+
+                <div class="paso">
+                    <b>3</b>
+                    Guardar
+                </div>
+
+            </div>
+
+
+            <!-- INFORMACIÓN DEL LIBRO -->
+
+            <div class="informacion-libro">
+
+                <div class="logo-container">
+
+                    <label for="logoInput"
+                           class="subir-logo"
+                           id="logoPreview">
+
+                        <span>＋</span>
+
+                        <small>
+                            Agregar logo
+                        </small>
+
+                    </label>
+
+                    <input
+                        type="file"
+                        id="logoInput"
+                        accept="image/*"
+                        hidden
+                    >
+
+                    <p>
+                        Logo del libro
+                    </p>
+
+                </div>
+
+
+                <div class="datos-libro">
+
+                    <div class="fila">
+
+                        <label>
+                            Título del libro
+
+                            <input
+                                id="tituloLibro"
+                                type="text"
+                                placeholder="Escribe el título..."
+                            >
+
+                        </label>
+
+
+                        <label>
+                            Autor
+
+                            <input
+                                id="autorLibro"
+                                type="text"
+                                placeholder="Nombre del autor..."
+                            >
+
+                        </label>
+
+                    </div>
+
+
+                    <label>
+                        Frase general
+
+                        <input
+                            id="fraseGeneral"
+                            type="text"
+                            placeholder="Una frase que represente toda la obra..."
+                        >
+
+                    </label>
+
+
+                    <label>
+                        Frase inicial
+
+                        <textarea
+                            id="fraseInicial"
+                            placeholder="Escribe la frase con la que comienza tu libro..."
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        Sinopsis
+
+                        <textarea
+                            id="sinopsisLibro"
+                            rows="5"
+                            placeholder="Cuenta brevemente de qué trata tu libro..."
+                        ></textarea>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CAPÍTULOS -->
+
+            <div class="encabezado-capitulos">
+
+                <div>
+
+                    <h3>Capítulos</h3>
+
+                    <p>
+                        Cada capítulo permanecerá guardado
+                        en su propio cajoncito.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn-secundario"
+                    onclick="crearCapitulo()">
+
+                    ＋ Crear capítulo
+
+                </button>
+
+            </div>
+
+
+            <div id="listaCapitulos"></div>
+
+
+            <div class="barra-guardar">
+
+                <button
+                    class="btn-limpiar"
+                    onclick="limpiarFormulario()">
+
+                    Limpiar
+
+                </button>
+
+                <button
+                    class="btn-principal"
+                    onclick="guardarLibro()">
+
+                    Guardar libro
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= LIBROS ================= -->
+
+    <section id="libros" class="seccion">
+
+        <div class="titulo-seccion">
+
+            <div>
+
+                <h3>Todos mis libros</h3>
+
+                <p>
+                    Lee, edita, comparte o descarga
+                    tus obras.
+                </p>
+
+            </div>
+
+            <button
+                class="btn-principal"
+                onclick="nuevoLibro()">
+
+                ＋ Nuevo libro
+
+            </button>
+
+        </div>
+
+        <div id="todosLosLibros" class="grid-libros"></div>
+
+    </section>
+
+
+
+    <!-- ================= PROCESO ================= -->
+
+    <section id="proceso" class="seccion">
+
+        <div class="tarjeta-proceso">
+
+            <span class="etiqueta">
+                SEGUIMIENTO
+            </span>
+
+            <h2>
+                Proceso de mis libros
+            </h2>
+
+            <p>
+                Revisa cuánto has avanzado
+                en cada obra.
+            </p>
+
+            <div id="listaProceso"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CHAT IA ================= -->
+
+    <section id="chat" class="seccion">
+
+        <div class="chat">
+
+            <div class="chat-header">
+
+                <div class="ia-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong>
+                        Asistente de Biblioteca
+                    </strong>
+
+                    <span>
+                        Analiza el avance de tus libros
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="mensajesChat"
+                class="mensajes">
+
+                <div class="mensaje ia">
+
+                    Hola. Soy el asistente de tu
+                    biblioteca.
+
+                    <br><br>
+
+                    Puedes preguntarme:
+
+                    <b>
+                        ¿Cómo está el proceso de mi libro?
+                    </b>
+
+                </div>
+
+            </div>
+
+
+            <div class="sugerencias">
+
+                <button onclick="preguntaIA(this)">
+                    ¿Cómo está el proceso de mi libro?
+                </button>
+
+                <button onclick="preguntaIA(this)">
+                    ¿Cuántos capítulos tengo?
+                </button>
+
+                <button onclick="preguntaIA(this)">
+                    ¿Qué libro está más avanzado?
+                </button>
+
+            </div>
+
+
+            <form
+                class="chat-input"
+                onsubmit="enviarPregunta(event)">
+
+                <input
+                    id="entradaChat"
+                    placeholder="Escribe tu pregunta..."
+                >
+
+                <button>
+                    ➤
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- ================= MODAL LEER ================= -->
+
+<div id="modalLeer" class="modal">
+
+    <div class="modal-contenido lectura">
+
+        <button
+            class="cerrar"
+            onclick="cerrarModal('modalLeer')">
+
+            ×
+
+        </button>
+
+        <div id="contenidoLectura"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MODAL EDITAR ================= -->
+
+<div id="modalEditar" class="modal">
+
+    <div class="modal-contenido grande">
+
+        <button
+            class="cerrar"
+            onclick="cerrarModal('modalEditar')">
+
+            ×
+
+        </button>
+
+        <div id="contenidoEditar"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MODAL COMPARTIR ================= -->
+
+<div id="modalCompartir" class="modal">
+
+    <div class="modal-contenido compartir">
+
+        <button
+            class="cerrar"
+            onclick="cerrarModal('modalCompartir')">
+
+            ×
+
+        </button>
+
+        <span class="etiqueta">
+            COMPARTIR
+        </span>
+
+        <h2>
+            Enlace de tu libro
+        </h2>
+
+        <p>
+            Este enlace identifica tu libro.
+        </p>
+
+        <div class="enlace">
+
+            <input id="enlaceLibro" readonly>
+
+            <button onclick="copiarEnlace()">
+                Copiar
+            </button>
+
+        </div>
+
+        <button
+            class="btn-secundario"
+            onclick="compartirNativo()">
+
+            Compartir
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
